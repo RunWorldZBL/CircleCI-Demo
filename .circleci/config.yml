@@ -2,7 +2,19 @@ version: 2.1
 jobs:
   build:
     docker:
-      - image: circleci/node:12.11.1
+      - image: circleci/node:12
+    filters:
+      branches:
+        only:
+          - master
     steps:
-      - run: echo "A first hello"
-      - run: npm -v
+      - add_ssh_keys:
+          fingerprints:
+            - "f6:81:b7:24:86:07:78:df:5e:ba:28:dd:5f:1e:4f:ba"
+      - checkout
+      - run:
+          name: Install
+          command: npm install
+      - run:
+          name: Build
+          command: npm run build
